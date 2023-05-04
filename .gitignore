@@ -1,0 +1,12 @@
+# Project exclude paths
+/.gradle/
+/Topics/Collectors/Set average/out/
+/Topics/Collectors/Set average/out/production/classes/
+/Topics/Collectors/The product of squares/out/
+/Topics/Collectors/The product of squares/out/production/classes/
+/Topics/Integer types and operations/Reading integer numbers/out/
+/Topics/Integer types and operations/Reading integer numbers/out/production/classes/
+/Topics/Integer types and operations/Reversing/out/
+/Topics/Integer types and operations/Reversing/out/production/classes/
+/Topics/The List interface/Companies/out/
+/Topics/The List interface/Companies/out/production/classes/
