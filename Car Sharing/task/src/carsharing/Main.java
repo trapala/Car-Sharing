@@ -6,51 +6,30 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Main {
-    // JDBC driver name and database URL
-    static final String JDBC_DRIVER = "org.h2.Driver";
-    static final String DB_URL = "jdbc:h2:./src/carsharing/db/carsharing";
-
     public static void main(String[] args) {
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            // STEP 1: Register JDBC driver
-            Class.forName(JDBC_DRIVER);
+        // Get the database file name from command-line arguments or use a default name
+        String databaseFileName = "carsharing";
+        if (args.length > 0 && args[0].equals("-databaseFileName")) {
+            databaseFileName = args[1];
+        }
 
-            //STEP 2: Open a connection
-            System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL);
+        // Construct the JDBC URL for connecting to the H2 database
+        String jdbcUrl = "jdbc:h2:./src/carsharing/db/" + databaseFileName;
 
-            //STEP 3: Execute a query
-            System.out.println("Creating table in given database...");
-            stmt = conn.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS COMPANY " +
-                    "(ID INTEGER not NULL, " +
-                    " NAME VARCHAR(255))";
-            stmt.executeUpdate(sql);
-            System.out.println("Created table in given database...");
+        try (Connection connection = DriverManager.getConnection(jdbcUrl);
+             Statement statement = connection.createStatement()) {
 
-            // STEP 4: Clean-up environment
-            stmt.close();
-            conn.close();
-        } catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        } catch (Exception e) {
-            //Handle errors for Class.forName
+            // Enable auto-commit mode
+            connection.setAutoCommit(true);
+
+            // Create the COMPANY table
+            String createTableSql = "CREATE TABLE COMPANY (ID INT, NAME VARCHAR)";
+            statement.executeUpdate(createTableSql);
+
+            System.out.println("COMPANY table created successfully!");
+
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            //finally block used to close resources
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException se2) {
-            } // nothing we can do
-            try {
-                if (conn != null) conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            } //end finally try
-        } //end try
-        System.out.println("Goodbye!");
+        }
     }
 }
