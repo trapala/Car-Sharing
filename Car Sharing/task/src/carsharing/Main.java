@@ -156,7 +156,6 @@ class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return companies;
     }
 
